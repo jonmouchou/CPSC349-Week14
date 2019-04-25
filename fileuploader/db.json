@@ -1,0 +1,24 @@
+{
+  "images": [
+    {
+      "id": 1,
+      "src": "http://localhost:9000/images/kitten.jpeg",
+      "caption": "kitteh"
+    },
+    {
+      "id": "\"e07051af6390b46f1d4af19d0ccbb3a3\"",
+      "src": "http://localhost:9000/images/Screen Shot 2019-04-21 at 9.59.49 PM.png",
+      "caption": ""
+    },
+    {
+      "id": "\"eb8f3d3ec618db145a9da50b75f5a730\"",
+      "src": "http://localhost:9000/images/YAY.png",
+      "caption": ""
+    },
+    {
+      "id": "\"ce09405894ae80ec00be7e1a334236de\"",
+      "src": "http://localhost:9000/images/kitten.jpeg",
+      "caption": ""
+    }
+  ]
+}
