@@ -1,15 +1,7 @@
 (function (window) {
   'use strict';
 
-  var minioClient = new MinIO.Client({
-    endPoint: 'localhost',
-    port: 9000,
-    useSSL: true,
-    accessKey: 'NJA8L3GU3RPAVBAN6HOY',
-    secretKey: 'aj97GK+rAhiRW5lyJaav+kgd7gW8l4uD9FT5RUuV'
-  });
-
-  var endpoint = new AWS.Endpoint('http://localhost:9000/images');
+  // eslint-disable-next-line no-undef
   AWS.config.update({
     region: 'us-east-1',
     accessKeyId: 'NJA8L3GU3RPAVBAN6HOY',
@@ -17,8 +9,9 @@
     sslEnabled: false
   });
 
+  // eslint-disable-next-line no-undef
   var s3 = new AWS.S3({
-    endpoint: endpoint,
+    endpoint: 'http://localhost:9000/images',
     params: {
       Bucket: 'images',
       s3ForcePathStyle: false,
@@ -26,9 +19,25 @@
     }
   });
 
-  $('#submit').click((e) => {
+  class UploadForm extends HTMLElement {
+    connectedCallback () {
+      this.innerHTML =
+        `Caption:<br>
+        <input id="upload-caption" type="text" name="caption">
+        <br>
+        Image File:<br>
+        <input id="upload-image" type="file" name="image">
+        <br><br>
+        <input id="upload-submit" type="submit" value="Upload">
+        <br>`;
+    }
+  }
+  customElements.define('upload-form', UploadForm);
+
+  $('#upload-submit').click((e) => {
     e.preventDefault();
-    var image = document.getElementById('image').files[0];
+    var image = document.getElementById('upload-image').files[0];
+    var caption = $('#upload-caption')[0].value;
 
     s3.upload({
       Key: image.name,
@@ -38,7 +47,7 @@
       var uploadData = {
         'id': data.ETag,
         'src': `http://localhost:9000/images/${image.name}`,
-        'caption': ''
+        'caption': caption
       };
       fetch('http://localhost:3000/images', {
         method: 'POST', // or 'PUT'
